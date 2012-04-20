@@ -310,9 +310,9 @@
 						if(_c.css("display") == "none"){
 							return true;
 						}
-						_c.fadeTo(0, 0);
+						_c.stop().fadeTo(0, 0);
 						setTimeout(function(){
-							_c.fadeTo(_prop.time || 250, 1);
+							_c.stop().fadeTo(_prop.time || 250, 1);
 						}, i * (_prop.delay || 0));
 					});
 				}
