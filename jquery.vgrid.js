@@ -1,10 +1,10 @@
 /**
- * jQuery VGrid v0.1.7 - variable grid layout plugin
+ * jQuery VGrid v0.1.8 - variable grid layout plugin
  *
  * Terms of Use - jQuery VGrid
  * under the MIT (http://www.opensource.org/licenses/mit-license.php) License.
  *
- * Copyright 2009-2011 xlune.com All rights reserved.
+ * Copyright 2009-2012 xlune.com All rights reserved.
  * (http://blog.xlune.com/2009/09/jqueryvgrid.html)
  */
 (function($)
@@ -18,6 +18,9 @@
 		_childs.each(function(i)
 		{
 			_c = $(this);
+			if(_c.css("display") == "none"){
+				return true;
+			}
 			_size = getSize(_c);
 			_point = getAttachPoint(_matrix, _size[0]);
 			_matrix = updateAttachArea(_matrix, _point, _size);
@@ -173,8 +176,8 @@
 		childs.each(function(i)
 		{
 			_c = $(this);
-			_c.css("left", ~~_c.data("_vgleft")+"px");
-			_c.css("top", ~~_c.data("_vgtop")+"px");
+			_c.css("left", _c.data("_vgleft")+"px");
+			_c.css("top", _c.data("_vgtop")+"px");
 		});
 	};
 	function animateTo(childs, easing, time, delay)
@@ -221,17 +224,19 @@
 	};
 	function refleshHandler(tg)
 	{
-		var _self = tg;
-		clearTimeout(_self.data("_vgtimeout"));
-		makePos(_self);
-		_self.data("_vgtimeout", setTimeout(function(){
-			animateTo(
-				_self.data("_vgchild"),
-				_self.data("_vgopt").easeing || "linear",
-				_self.data("_vgopt").time || 500,
-				_self.data("_vgopt").delay || 0
-			);
-		}, 500));
+		tg.each(function(num){
+			var _self = $(this);
+			clearTimeout(_self.data("_vgtimeout"));
+			_self.data("_vgtimeout", setTimeout(function(){
+				makePos(_self);
+				animateTo(
+					_self.data("_vgchild"),
+					_self.data("_vgopt").easeing || "linear",
+					_self.data("_vgopt").time || 500,
+					_self.data("_vgopt").delay || 0
+				);
+			}, 300));
+		});
 	};
 	function setFontSizeListener(self, func)
 	{
@@ -247,7 +252,7 @@
 				s.data("size", s.css("font-size"));
 				func(self);
 			}
-		}, 1000));
+		}, 500));
 	};
 	function setImgLoadEvent(self, func)
 	{
@@ -302,9 +307,12 @@
 					_self.data("_vgchild").each(function(i)
 					{
 						var _c = $(this);
-						_c.css('display', 'none');
+						if(_c.css("display") == "none"){
+							return true;
+						}
+						_c.fadeTo(0, 0);
 						setTimeout(function(){
-							_c.fadeIn(_prop.time || 250);
+							_c.fadeTo(_prop.time || 250, 1);
 						}, i * (_prop.delay || 0));
 					});
 				}
