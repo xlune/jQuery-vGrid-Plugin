@@ -231,7 +231,7 @@
 				makePos(_self);
 				animateTo(
 					_self.data("_vgchild"),
-					_self.data("_vgopt").easeing || "linear",
+					_self.data("_vgopt").easing || "linear",
 					_self.data("_vgopt").time || 500,
 					_self.data("_vgopt").delay || 0
 				);
@@ -287,6 +287,9 @@
 		{
 			var _target = $(this);
 			var _opt = option || {};
+			if (_opt.easeing) {
+				_opt.easing = _opt.easeing;
+			}
 			_target.each(function(){
 				var _self = $(this);
 				_self.data("_vgopt", _opt);
@@ -325,7 +328,7 @@
 			});
 			return _target;
 		},
-		vgrefresh: function(easeing, time, delay, func)
+		vgrefresh: function(easing, time, delay, func)
 		{
 			var _target = $(this);
 			_target.each(function(){
@@ -340,7 +343,7 @@
 					delay = typeof(delay)=="number" ? delay : _obj.data("_vgopt").delay || 0;
 					animateTo(
 						_obj.data("_vgchild"),
-						easeing || _obj.data("_vgopt").easeing || "linear",
+						easing || _obj.data("_vgopt").easing || "linear",
 						time,
 						delay
 					);
@@ -356,7 +359,7 @@
 			});
 			return _target;
 		},
-		vgsort: function(func, easeing, time, delay)
+		vgsort: function(func, easing, time, delay)
 		{
 			var _target = $(this);
 			_target.each(function(){
@@ -370,7 +373,7 @@
 					makePos(_obj);
 					animateTo(
 						_obj.data("_vgchild"),
-						easeing || _obj.data("_vgopt").easeing || "linear",
+						easing || _obj.data("_vgopt").easing || "linear",
 						typeof(time)=="number" ? time : _obj.data("_vgopt").time || 500,
 						typeof(delay)=="number" ? delay : _obj.data("_vgopt").delay || 0
 					);
