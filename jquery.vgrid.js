@@ -235,7 +235,7 @@
 					_self.data("_vgopt").time || 500,
 					_self.data("_vgopt").delay || 0
 				);
-			}, 300));
+			}, 500));
 		});
 	};
 	function setFontSizeListener(self, func)
@@ -252,7 +252,7 @@
 				s.data("size", s.css("font-size"));
 				func(self);
 			}
-		}, 500));
+		}, 1000));
 	};
 	function setImgLoadEvent(self, func)
 	{
