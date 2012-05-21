@@ -190,7 +190,7 @@
 		{
 			_c = $(childs[i]);
 			_pos = _c.position();
-			if(_pos.left != _c.data("_vgleft") && _pos.top != _c.data("_vgtop"))
+			if(_pos.left != _c.data("_vgleft") || _pos.top != _c.data("_vgtop"))
 			{
 				isMove = true;
 			}
