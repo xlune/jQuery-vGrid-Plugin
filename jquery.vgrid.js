@@ -222,7 +222,7 @@
 			});
 		}
 	};
-	function refleshHandler(tg)
+	function refreshHandler(tg)
 	{
 		tg.each(function(num){
 			var _self = $(this);
@@ -321,10 +321,10 @@
 				}
 				$(window).resize(function(e)
 				{
-					refleshHandler(_self);
+					refreshHandler(_self);
 				});
-				if(_opt.useLoadImageEvent) setImgLoadEvent(_self, refleshHandler);
-				if(_opt.useFontSizeListener) setFontSizeListener(_self, refleshHandler);
+				if(_opt.useLoadImageEvent) setImgLoadEvent(_self, refreshHandler);
+				if(_opt.useFontSizeListener) setFontSizeListener(_self, refreshHandler);
 			});
 			return _target;
 		},
@@ -355,7 +355,7 @@
 						);
 					}
 				}
-				if(_opt.useLoadImageEvent) setImgLoadEvent(_obj, refleshHandler);
+				if(_opt.useLoadImageEvent) setImgLoadEvent(_obj, refreshHandler);
 			});
 			return _target;
 		},
