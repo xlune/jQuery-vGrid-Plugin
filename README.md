@@ -9,7 +9,7 @@
 
     $(function(){
         $("#container").vgrid({
-            easeing: "easeOutQuint",
+            easing: "easeOutQuint",
             time: 500,
             delay: 20,
             fadeIn: {
