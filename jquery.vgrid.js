@@ -1,5 +1,5 @@
 /**
- * jQuery VGrid v0.1.8 - variable grid layout plugin
+ * jQuery VGrid v0.1.9 - variable grid layout plugin
  *
  * Terms of Use - jQuery VGrid
  * under the MIT (http://www.opensource.org/licenses/mit-license.php) License.
@@ -313,7 +313,7 @@
 						if(_c.css("display") == "none"){
 							return true;
 						}
-						_c.stop().fadeTo(0, 0);
+						_c.stop().css({opacity:0});
 						setTimeout(function(){
 							_c.stop().fadeTo(_prop.time || 250, 1);
 						}, i * (_prop.delay || 0));
