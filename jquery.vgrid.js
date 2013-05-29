@@ -1,5 +1,5 @@
 /**
- * jQuery VGrid v0.1.9 - variable grid layout plugin
+ * jQuery VGrid v0.1.10 - variable grid layout plugin
  *
  * Terms of Use - jQuery VGrid
  * under the MIT (http://www.opensource.org/licenses/mit-license.php) License.
@@ -131,10 +131,10 @@
 		var _delay = _self.data("_vgchild").length
 			* (_self.data("_vgopt").delay || 0)
 			+ _self.data("_vgopt").time || 500;
-		_self.stop();
+		_self.stop(false, true);
 		if(_self.height() < _self.data("_vgwrapheight"))
 		{
-			if($.browser.msie)
+			if(!$.support.noCloneEvent)
 			{
 				_self.height(_self.data("_vgwrapheight"));
 			}
@@ -153,7 +153,7 @@
 		{
 			clearTimeout(_self.data("_vgwraptimeout"));
 			_self.data("_vgwraptimeout", setTimeout(function(){
-				if($.browser.msie)
+				if(!$.support.noCloneEvent)
 				{
 					_self.height(_self.data("_vgwrapheight"));
 				}
@@ -313,9 +313,9 @@
 						if(_c.css("display") == "none"){
 							return true;
 						}
-						_c.stop().css({opacity:0});
+						_c.stop(false, true).css({opacity:0});
 						setTimeout(function(){
-							_c.stop().fadeTo(_prop.time || 250, 1);
+							_c.stop(false, true).fadeTo(_prop.time || 250, 1);
 						}, i * (_prop.delay || 0));
 					});
 				}
