@@ -1,10 +1,10 @@
 /**
- * jQuery VGrid v0.1.10 - variable grid layout plugin
+ * jQuery VGrid v0.1.11 - variable grid layout plugin
  *
  * Terms of Use - jQuery VGrid
  * under the MIT (http://www.opensource.org/licenses/mit-license.php) License.
  *
- * Copyright 2009-2012 xlune.com All rights reserved.
+ * Copyright 2009-2013 xlune.com All rights reserved.
  * (http://blog.xlune.com/2009/09/jqueryvgrid.html)
  */
 (function($)
@@ -18,7 +18,7 @@
 		_childs.each(function(i)
 		{
 			_c = $(this);
-			if(_c.css("display") == "none"){
+			if(_c.css("display") === "none"){
 				return true;
 			}
 			_size = getSize(_c);
@@ -65,7 +65,7 @@
 	function matrixSortDepth(a, b)
 	{
 		if(!a || !b) return 0;
-		return ((a[2] == b[2] && a[0] > b[0]) || a[2] > b[2]) ? 1 : -1;
+		return ((a[2] === b[2] && a[0] > b[0]) || a[2] > b[2]) ? 1 : -1;
 	};
 	function matrixSortX(a, b)
 	{
@@ -80,8 +80,8 @@
 		{
 			if(!_mtx[i]) continue;
 			if(_mtx_join.length > 0
-				&& _mtx_join[_mtx_join.length-1][1] == _mtx[i][0]
-				&& _mtx_join[_mtx_join.length-1][2] == _mtx[i][2])
+				&& _mtx_join[_mtx_join.length-1][1] === _mtx[i][0]
+				&& _mtx_join[_mtx_join.length-1][2] === _mtx[i][2])
 			{
 				_mtx_join[_mtx_join.length-1][1] = _mtx[i][1];
 			}
@@ -111,26 +111,39 @@
 	{
 		var _w = child.width();
 		var _h = child.height();
-		_w += Number(child.css("margin-left").replace('px', ''))
-				+Number(child.css("padding-left").replace('px', ''))
-				+Number(child.get(0).style.borderLeftWidth.replace('px', ''))
-				+Number(child.css("margin-right").replace('px', ''))
-				+Number(child.css("padding-right").replace('px', ''))
-				+Number(child.get(0).style.borderRightWidth.replace('px', ''));
-		_h += Number(child.css("margin-top").replace('px', ''))
-				+Number(child.css("padding-top").replace('px', ''))
-				+Number(child.get(0).style.borderTopWidth.replace('px', ''))
-				+Number(child.css("margin-bottom").replace('px', ''))
-				+Number(child.css("padding-bottom").replace('px', ''))
-				+Number(child.get(0).style.borderBottomWidth.replace('px', ''));
+		_w += strToNum(child.css("margin-left"))
+				+ strToNum(child.css("padding-left"))
+				+ strToNum(child.css("border-left-width"))
+				+ strToNum(child.css("margin-right"))
+				+ strToNum(child.css("padding-right"))
+				+ strToNum(child.css("border-right-width"));
+		_h += strToNum(child.css("margin-top"))
+				+ strToNum(child.css("padding-top"))
+				+ strToNum(child.css("border-top-width"))
+				+ strToNum(child.css("margin-bottom"))
+				+ strToNum(child.css("padding-bottom"))
+				+ strToNum(child.css("border-bottom-width"));
 		return [_w, _h];
+	};
+	function strToNum(str){
+		var num = parseInt(str, 10);
+		if(isNaN(num)){
+			return 0
+		}
+		return num;
+	}
+	function getNumValue(val, def){
+		def = typeof(def) === "number" && isFinite(def) ? def : 0 ;
+		val = typeof(val) === "number" && isFinite(val) ? val : def ;
+		return val;
 	};
 	function heightTo(self)
 	{
 		var _self = self;
+		var _easeTime = getNumValue(_self.data("_vgopt").time, 500);
 		var _delay = _self.data("_vgchild").length
 			* (_self.data("_vgopt").delay || 0)
-			+ _self.data("_vgopt").time || 500;
+			+ _easeTime;
 		_self.stop(false, true);
 		if(_self.height() < _self.data("_vgwrapheight"))
 		{
@@ -144,7 +157,7 @@
 					{
 						height: _self.data("_vgwrapheight")+"px"
 					},
-					(_self.data("_vgopt").time || 500),
+					_easeTime,
 					"easeOutQuart"
 				);
 			}
@@ -163,7 +176,7 @@
 						{
 							height: _self.data("_vgwrapheight")+"px"
 						},
-						(_self.data("_vgopt").time || 500),
+						_easeTime,
 						"easeOutQuart"
 					);
 				}
@@ -197,7 +210,7 @@
 		}
 		if(isMove)
 		{
-			if(typeof(_self.data("_vgopt").onStart) == "function") _self.data("_vgopt").onStart();
+			if(typeof(_self.data("_vgopt").onStart) === "function") _self.data("_vgopt").onStart();
 			childs.each(function(i)
 			{
 				var _c = $(this);
@@ -205,7 +218,7 @@
 					duration: time,
 					easing: easing
 				};
-				if(childs.size()-1 == i)
+				if(childs.size()-1 === i)
 				{
 					_opt.complete = _self.data("_vgopt").onFinish || null;
 				}
@@ -232,10 +245,10 @@
 				animateTo(
 					_self.data("_vgchild"),
 					_self.data("_vgopt").easing || "linear",
-					_self.data("_vgopt").time || 500,
-					_self.data("_vgopt").delay || 0
+					getNumValue(_self.data("_vgopt").time, 500),
+					getNumValue(_self.data("_vgopt").delay, 0)
 				);
-			}, 500));
+			}, getNumValue(_self.data("_vgopt").wait, 500)));
 		});
 	};
 	function setFontSizeListener(self, func)
@@ -258,12 +271,12 @@
 	{
 		if(!self.data("vgrid-image-event-added")){
 			self.data("vgrid-image-event-added", 1);
-			self.bind("vgrid-added", function(){
+			self.on("vgrid-added", function(){
 				self.find("img").each(function(){
 					var img = $(this);
 					if(!img.data("vgrid-image-handler")){
 						img.data("vgrid-image-handler", 1);
-						img.bind("load", function(){
+						img.on("load", function(){
 							func(self);
 						});
 					}
@@ -304,13 +317,13 @@
 				moveTo(_self.data("_vgchild"));
 				if(_self.data("_vgopt").fadeIn)
 				{
-					var _prop = (typeof(_self.data("_vgopt").fadeIn)=='object')
+					var _prop = (typeof(_self.data("_vgopt").fadeIn) === "object")
 									? _self.data("_vgopt").fadeIn
 									: {time: _self.data("_vgopt").fadeIn} ;
 					_self.data("_vgchild").each(function(i)
 					{
 						var _c = $(this);
-						if(_c.css("display") == "none"){
+						if(_c.css("display") === "none"){
 							return true;
 						}
 						_c.stop(false, true).css({opacity:0});
@@ -339,15 +352,15 @@
 					_obj.data("_vgchild", _obj.find("> *"));
 					_obj.data("_vgchild").css("position", "absolute");
 					makePos(_obj);
-					time = typeof(time)=="number" ? time : _obj.data("_vgopt").time || 500;
-					delay = typeof(delay)=="number" ? delay : _obj.data("_vgopt").delay || 0;
+					time = getNumValue(time, getNumValue(_obj.data("_vgopt").time, 500));
+					delay = getNumValue(delay, getNumValue(_obj.data("_vgopt").delay, 0));
 					animateTo(
 						_obj.data("_vgchild"),
 						easing || _obj.data("_vgopt").easing || "linear",
 						time,
 						delay
 					);
-					if(typeof(func)=='function')
+					if(typeof(func) === 'function')
 					{
 						setTimeout(
 							func,
@@ -374,8 +387,8 @@
 					animateTo(
 						_obj.data("_vgchild"),
 						easing || _obj.data("_vgopt").easing || "linear",
-						typeof(time)=="number" ? time : _obj.data("_vgopt").time || 500,
-						typeof(delay)=="number" ? delay : _obj.data("_vgopt").delay || 0
+						getNumValue(time, getNumValue(_obj.data("_vgopt").time, 500)),
+						getNumValue(delay, getNumValue(_obj.data("_vgopt").delay, 0))
 					);
 				}
 			});
