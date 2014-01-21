@@ -3,7 +3,7 @@
   "version": "0.1.11",
   "homepage": "https://github.com/xlune/jQuery-vGrid-Plugin",
   "authors": [
-    "xlune.com"
+    "xlune"
   ],
   "description": "jquery variable grid layout plugin",
   "main": "jquery.vgrid.min.js",
@@ -20,5 +20,6 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": { "jquery": "latest" }
 }
