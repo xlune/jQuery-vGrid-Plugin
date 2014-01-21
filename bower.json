@@ -1,0 +1,25 @@
+{
+  "name": "jQuery-vGrid-Plugin",
+  "version": "0.1.11",
+  "homepage": "https://github.com/xlune/jQuery-vGrid-Plugin",
+  "authors": [
+    "xlune"
+  ],
+  "description": "jquery variable grid layout plugin",
+  "main": "jquery.vgrid.min.js",
+  "keywords": [
+    "jquery",
+    "grid",
+    "layout",
+    "plugin"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": { "jquery": "latest" }
+}
